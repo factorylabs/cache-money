@@ -1,3 +1,5 @@
+require 'digest/md5'
+
 module Cash
   module Accessor
     def self.included(a_module)
@@ -8,6 +10,9 @@ module Cash
     end
 
     module ClassMethods
+
+      MAX_KEY_SIZE = 250
+      
       def fetch(keys, options = {}, &block)
         case keys
         when Array
@@ -66,7 +71,11 @@ module Cash
       end
 
       def cache_key(key)
-        "#{name}:#{cache_config.version}/#{key.to_s.gsub(' ', '+')}"
+        s = "#{name}:#{cache_config.version}/#{key.to_s.gsub(' ', '+')}"
+        if s.size >= MAX_KEY_SIZE
+          s = Digest::MD5.hexdigest(s)
+        end
+        s
       end
     end
 

@@ -34,6 +34,17 @@ module Cash
                 Story.find(story.id, nil).should == story
               end
             end
+
+            describe "#find(id,id,id..)" do
+              it "accepts a larger than normal set of ids" do
+                st = []
+                1.upto(250) do |i|
+                  st << Story.create!
+                end
+                ids = st.collect(&:id)
+                Story.find(ids).should == st
+              end
+            end
           end
 
           describe 'when given nonexistent ids' do
@@ -70,6 +81,17 @@ module Cash
             it "#finds the object with that id" do
               story = Story.create!
               Story.find([story.id]).should == [story]
+            end
+          end
+
+          describe "when given a large array of ids" do
+            it "#finds all objects with those ids" do
+              st = []
+              1.upto(250) do |i|
+                st << Story.create!
+              end
+              ids = st.collect(&:id)
+              Story.find(:all, :conditions => { :id => ids }).should == st              
             end
           end
 

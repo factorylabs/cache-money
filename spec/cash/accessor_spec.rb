@@ -16,6 +16,14 @@ module Cash
             Story.fetch("yabba").should == "dabba"
           end
         end
+
+        describe "when the key size is very large" do
+          it "should hash the key to fit" do
+            k = "a" * 1024
+            Story.set(k, "foo")
+            Story.fetch(k).should == "foo"
+          end
+        end
       end
 
       describe '#fetch([...])', :shared => true do
