@@ -11,7 +11,7 @@ module Cash
 
     module ClassMethods
 
-      MAX_KEY_SIZE = 250
+      MAX_KEY_SIZE = 100
       
       def fetch(keys, options = {}, &block)
         case keys
