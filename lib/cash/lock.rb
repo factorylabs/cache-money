@@ -7,7 +7,7 @@ module Cash
 
     def initialize(cache)
       @cache = cache
-      @runtime = 0
+      @runtime = Benchmark::Tms.new
     end
 
     def synchronize(key, lock_expiry = DEFAULT_EXPIRY, retries = DEFAULT_RETRY)
